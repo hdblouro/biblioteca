@@ -21,4 +21,4 @@ app.listen(PORT, () => {
 });
 
 // define a rota para o pacote /routes
-// app.use(routes);
+app.use(routes);

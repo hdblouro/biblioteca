@@ -1,17 +1,16 @@
 import { Router, Request, Response } from "express";
-import livro from './livro';
-import autor from './autor';
-import editora from './editora';
-import autorlivro from './autorlivro';
+import autor from './Autor';
+import editora from './Editora';
+import livro from './Livro';
+import autorlivro from './AutorLivro';
 
 const routes = Router();
-
-routes.use("/livro", livro);
 routes.use("/autor", autor);
-routes.use("/editora", livro);
-routes.use("/autorlivro", autor);
+routes.use("/editora", editora);
+routes.use("/livro", livro);
+routes.use("/autorlivro", autorlivro);
 
 //aceita qualquer método HTTP ou URL
-routes.use((_: Request, res: Response) => res.json({ error: "Requisição desconhecida" }));
+routes.use( (_:Request,res:Response) => res.json({error:"Requisição desconhecida"}) );
 
 export default routes;
