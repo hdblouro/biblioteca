@@ -89,7 +89,6 @@ class AutorController {
                 return res.json({ message: error.errors["data_nasc"].message });
             }
             return res.json({ message: error.message });
-
         }
     }
 }

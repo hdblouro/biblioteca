@@ -28,7 +28,7 @@ class LivroController {
 
     public async list(req: Request, res: Response): Promise<Response> {
         try {
-            const objects = await Livro.find().sort({ razao: "asc" });
+            const objects = await Livro.find().sort({ titulo: "asc" });
             return res.json(objects);
         } catch (error: any) {
             return res.json({ message: error.message });
