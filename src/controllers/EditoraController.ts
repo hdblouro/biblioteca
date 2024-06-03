@@ -16,7 +16,7 @@ class EditoraController {
         } catch (error: any) {
             if (error.code === 11000 || error.code === 11001) {
                 // código 11000 e 11001 indica violação de restrição única (índice duplicado)
-                return res.json({ message: "Este cnpj já está em uso!" });
+                return res.json({ message: "Este CNPJ já está em uso!" });
             } else if (error && error.errors["razao"]) {
                 return res.json({ message: error.errors["razao"].message });
             } else if (error && error.errors["cnpj"]) {

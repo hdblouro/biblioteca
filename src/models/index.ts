@@ -3,7 +3,29 @@ const { Schema } = mongoose;
 
 const AutorSchema = new Schema({
     nome: { type: String, maxlength: [50, "O nome pode ter no máximo 50 caracteres"], required: true },
-    cpf: { type: String, maxlenght: 11, minLenght: 11, required: true, unique: true },
+    cpf: {
+        type: String,
+        maxlenght: 11,
+        minLenght: 11,
+        required: true,
+        unique: true,
+        validate: {
+            validator: function (value: string) {
+                if (typeof value !== 'string') {
+                    return false;
+                }
+                value = value.replace(/[^\d]+/g, '');
+                if (value.length !== 11 || !!value.match(/(\d)\1{10}/)) {
+                    return false;
+                }
+                const values = value.split('').map(el => +el);
+                const rest = (count: number) => (values.slice(0, count - 12).reduce((soma, el, index) => (soma + el * (count - index)), 0) * 10) % 11 % 10;
+                return rest(10) === values[9] && rest(11) === values[10];
+            },
+            message: (props: any) =>
+                `${props.value} não é um CPF válido!`,
+        },
+    },
     data_nasc: { type: Date },
     email: {
         type: String,
@@ -25,7 +47,37 @@ const AutorSchema = new Schema({
 
 const EditoraSchema = new Schema({
     razao: { type: String, maxlength: 50, required: true },
-    cnpj: { type: String, minlength: 14, maxlength: 14 }
+    cnpj: {
+        type: String,
+        minlength: 14,
+        maxlength: 14,
+        unique: true,
+        validate: {
+            validator: function (value: string) {
+                // expressão regular para validar o formato do e-mail
+                var b: number[] = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+                var c: string = String(value).replace(/[^\d]/g, '')
+
+                if (c.length !== 14)
+                    return false
+
+                if (/0{14}/.test(c))
+                    return false
+
+                for (var i = 0, n = 0; i < 12; n += Number(c[i]) * b[++i]);
+                if (Number(c[12]) != (((n %= 11) < 2) ? 0 : 11 - n))
+                    return false
+
+                for (var i = 0, n = 0; i <= 12; n += Number(c[i]) * b[i++]);
+                if (Number(c[13]) != (((n %= 11) < 2) ? 0 : 11 - n))
+                    return false
+
+                return true
+            },
+            message: (props: any) =>
+                `${props.value} não é um CNPJ válido`,
+        },
+    }
 });
 
 const LivroSchema = new Schema({
