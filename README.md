@@ -2,6 +2,8 @@
 
 Modelo Relacional BD Biblioteca: https://drive.google.com/file/d/1UgzGr4MVOQK1Uy_2-lXDuqFmEQAfHYj5/view?usp=sharing
 
+Requisições Thunder Client: https://drive.google.com/file/d/1i6c1P2UD3QGnDbSgWwk2CMmWJeAgvzWf/view?usp=sharing
+
 Videoaula 1 - Iniciando e configurando o projeto: https://youtu.be/COchfYu2d4g
 
 Videoaula 2 - Conexão com o MongoDB: https://youtu.be/47C-W9auWpY
