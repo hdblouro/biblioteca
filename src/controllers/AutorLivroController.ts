@@ -25,14 +25,14 @@ class AutorLivroController {
     // list
 
     public async list(req: Request, res: Response): Promise<Response> {
-        const { autor } = req.body; // _id do autor da chave estrangeira
+        const { autor: _id } = req.body; // _id do autor da chave estrangeira
         try {
             // o método populate('autor') diz ao Mongoose para substituir o ID
             // da chave estrangeira pelos documentos da coleção autores
-            const objects = await AutorLivro.find({ autor })
+            const objects = await AutorLivro.find({ autor: _id })
                 .populate("autor","nome")
-                .select("autor")
-                .sort({ nome: "asc" });
+                .select("autor.nome._id")
+                .sort({ titulo: "asc" });
             return res.json(objects);
         } catch (error: any) {
             return res.json({ message: error.message });
