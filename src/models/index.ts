@@ -99,7 +99,9 @@ const LivroSchema = new Schema({
 
 const AutorLivroSchema = new Schema({
     livro: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'Livro', required: true,
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Livro', 
+        required: true,
         validate: {
             validator: async function (id: string) {
                 const livro = await Livro.findById(id); // verifica se id existe na coleção livros
@@ -109,7 +111,9 @@ const AutorLivroSchema = new Schema({
         }
     },
     autor: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'Autor', required: true,
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Autor', 
+        required: true,
         validate: {
             validator: async function (id: string) {
                 const autor = await Autor.findById(id); // verifica se id existe na coleção autores
