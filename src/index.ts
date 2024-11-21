@@ -5,7 +5,7 @@ import connect from "./models/connection";
 import AutorModel from "./models/AutorModel";
 import EditoraModel from "./models/EditoraModel";
 import LivroModel from "./models/LivroModel";
-import { Autor, Editora, Livro } from "./models";
+import { Autor, Editora, Livro, AutorLivro } from "./models";
 
 dotenv.config();
 
@@ -27,41 +27,19 @@ app.listen(PORT, () => {
 // define a rota para o pacote /routes
 app.use(routes);
 
-fetch('http://localhost:3001/autor', {  // cria conexão HTTP com post para salvar o objeto no BD
-    method: 'GET', // tipo de requisição
-    headers: { // cabeçalho da requisição
-        'Content-Type': 'application/json'
-    },
-}).then(response => response.json()) // resposta do backend
-    .then(data => {
-        console.log(data); // a rotina retorna o ID do objeto cadastrado
-    })
-    .catch(error => {
-        console.error(error); // mostra erro casso ocorra
-    })
-
-fetch('http://localhost:3001/editora', {  // cria conexão HTTP com post para salvar o objeto no BD
-    method: 'GET', // tipo de requisição
-    headers: { // cabeçalho da requisição
-        'Content-Type': 'application/json'
-    },
-}).then(response => response.json()) // resposta do backend
-    .then(data => {
-        console.log(data); // a rotina retorna o ID do objeto cadastrado
-    })
-    .catch(error => {
-        console.error(error); // mostra erro casso ocorra
-    })
-
-fetch('http://localhost:3001/livro', {  // cria conexão HTTP com post para salvar o objeto no BD
-    method: 'GET', // tipo de requisição
-    headers: { // cabeçalho da requisição
-        'Content-Type': 'application/json'
-    },
-}).then(response => response.json()) // resposta do backend
-    .then(data => {
-        console.log(data); // a rotina retorna o ID do objeto cadastrado
-    })
-    .catch(error => {
-        console.error(error); // mostra erro casso ocorra
-    })
+(async () => {
+    var docs = await AutorLivro.find().exec(); // busca os autores/livros coleção AutorLivro através do nome
+    if (docs != null) {
+        console.log("<< Livros Cadastrados >>");
+        docs.forEach(async doc => {
+            var autor = await Autor.findById(doc.autor);
+            var livro = await Livro.findById(doc.livro);
+            if (autor != null && livro != null) {
+                var editora = await Editora.findById(livro.editora);
+                if (editora != null) {
+                    console.log("Livro:", livro.titulo, "- Autor: ", autor.nome, "- Páginas:", livro.paginas, "- Editora:", editora.razao)
+                }
+            }
+        })
+    }
+})();
